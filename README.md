@@ -15,31 +15,6 @@ The system can answer questions about the book, provide current weather for dest
 
 ---
 
-## Directory Structure
-
-├── app/
-│ ├── workflow.py # Main workflow logic
-│ ├── query_classifier.py # LLM-based query classification
-│ ├── query_book.py # Book search (ChromaDB)
-│ ├── weather_query.py # Weather API wrapper
-│ ├── chroma_utils.py # ChromaDB connection/utilities
-│ ├── bedrock_embed.py # Bedrock embedding function
-│ ├── bedrock_converse.py # Bedrock LLM call for metadata/response
-│ ├── bedrock_client.py # Bedrock client setup
-│ ├── book_preprocess.py # Book cleaning/chunking
-│ └── ...
-├── data/
-│ └── ebook.txt # Raw book text
-├── chroma_data/ # ChromaDB vector DB files
-├── test_workflow.py # End-to-end workflow test script
-├── requirements.txt # Python dependencies
-├── .env.example # Example environment variables
-├── README.md # This file
-
-
-
----
-
 ## Setup Instructions
 
 ### 1. **Clone the Repository**
