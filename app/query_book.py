@@ -16,21 +16,21 @@ def search_book(query: str,
     Search the book collection in ChromaDB for the most relevant chunks to the query.
     Returns a formatted string with the top results.
     """
-    # Connect to ChromaDB
+    
     client = connect_to_chromadb(chroma_dir)
     collection = client.get_collection(collection_name)
 
-    # Embed the query using the same model as used for ingestion
+    
     query_embedding = get_bedrock_embedding(query)
 
-    # Query ChromaDB
+    
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=n_results,
         include=['documents', 'metadatas']
     )
 
-    # Format the results
+    
     if not results["documents"][0]:
         return "No relevant passages found in 'The Innocents Abroad.'"
 
@@ -46,7 +46,3 @@ def search_book(query: str,
         )
     return "\n".join(output)
 
-if __name__ == "__main__":
-    # Example usage
-    test_query = "What did Mark Twain think about the Sphinx?"
-    print(search_book(test_query))

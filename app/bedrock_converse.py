@@ -1,5 +1,3 @@
-# bedrock_converse.py
-
 import json
 from typing import Dict, Any
 from app.bedrock_client import get_bedrock_client
@@ -68,18 +66,3 @@ def get_nova_pro_metadata(chunk_text: str) -> Dict[str, Any]:
         "llm_error": "Malformed output",
         "llm_raw": output[:500]
     }
-
-# if __name__ == "__main__":
-#     from app.book_preprocess import clean_gutenberg_text, chunk_text_by_paragraph
-
-#     with open("ebook.txt", "r", encoding="utf-8") as f:
-#         raw_text = f.read()
-#     clean_text = clean_gutenberg_text(raw_text)
-#     chunks = chunk_text_by_paragraph(clean_text)
-
-#     for i, chunk in enumerate(chunks[:3]):
-#         meta = get_nova_pro_metadata(chunk)
-#         meta["chunk_id"] = i
-#         meta["text_preview"] = chunk[:60]
-#         print(f"Chunk {i} metadata:\n{json.dumps(meta, indent=2)}\n")
-#         break

@@ -17,7 +17,7 @@ def flatten_metadata(meta: dict) -> dict:
         if isinstance(v, list):
             flat[k] = ", ".join(str(x) for x in v)
         else:
-            flat[k] = str(v)  # Ensure all values are strings
+            flat[k] = str(v)
     return flat
 
 def main(
@@ -26,7 +26,7 @@ def main(
     collection_name="innocents_abroad",
     batch_size=10
 ):
-    # Set robust paths
+    
     PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if ebook_path is None:
         ebook_path = os.path.join(PROJECT_ROOT, "data", "ebook.txt")
@@ -37,27 +37,27 @@ def main(
     print(f"ChromaDB directory will be: {os.path.abspath(chroma_dir)}")
     print(f"Ebook path: {os.path.abspath(ebook_path)}")
     
-    # Check if ebook file exists
+    
     if not os.path.exists(ebook_path):
         print(f"ERROR: Ebook file not found at {ebook_path}")
         return
     
-    # Create the directory if it doesn't exist
+    
     os.makedirs(chroma_dir, exist_ok=True)
     print(f"Created/ensured directory exists: {chroma_dir}")
     
     try:
-        # 1. Start ChromaDB client with persistence
+        
         print("Initializing ChromaDB client...")
-        client = chromadb.PersistentClient(path=chroma_dir)  # Use PersistentClient instead
+        client = chromadb.PersistentClient(path=chroma_dir)
         print("ChromaDB client created successfully")
         
-        # 2. Create/get collection (will create if not exists)
+        
         print(f"Creating/getting collection: {collection_name}")
         collection = client.get_or_create_collection(collection_name)
         print(f"Collection created/retrieved: {collection.name}")
         
-        # 3. Load and preprocess the book
+        
         print("Loading and preprocessing book...")
         with open(ebook_path, "r", encoding="utf-8") as f:
             raw_text = f.read()
@@ -67,12 +67,12 @@ def main(
         
         print(f"Processing {len(chunks)} chunks...")
         
-        # 4. Process and insert in small batches
+        
         batch_ids, batch_docs, batch_embs, batch_metas = [], [], [], []
         
         for i, chunk in enumerate(tqdm(chunks, desc="Embedding and metadata")):
             try:
-                # Get metadata and embedding
+                
                 meta = get_nova_pro_metadata(chunk)
                 meta["chunk_id"] = i
                 meta["text_preview"] = chunk[:60]
@@ -83,7 +83,7 @@ def main(
                 batch_embs.append(embedding)
                 batch_metas.append(flatten_metadata(meta))
                 
-                # Insert batch when full or at the end
+                
                 if len(batch_ids) == batch_size or i == len(chunks) - 1:
                     print(f"Inserting batch of {len(batch_ids)} items...")
                     collection.add(
@@ -94,10 +94,10 @@ def main(
                     )
                     print(f"Stored batch up to chunk {i+1}/{len(chunks)}")
                     
-                    # Clear batches
+                    
                     batch_ids, batch_docs, batch_embs, batch_metas = [], [], [], []
                     
-                    # Verify data is being stored
+                    
                     count = collection.count()
                     print(f"Total documents in collection: {count}")
                     
@@ -105,11 +105,11 @@ def main(
                 print(f"Error processing chunk {i}: {str(e)}")
                 continue
         
-        # Final count
+        
         final_count = collection.count()
         print(f"Final count: {final_count} chunks stored in ChromaDB")
         
-        # Check if directory was created and has content
+        
         if os.path.exists(chroma_dir):
             print(f"✓ ChromaDB directory exists at: {os.path.abspath(chroma_dir)}")
             files = os.listdir(chroma_dir)
@@ -117,7 +117,7 @@ def main(
         else:
             print(f"✗ ChromaDB directory NOT found at: {os.path.abspath(chroma_dir)}")
         
-        # 5. Test a query
+        
         if final_count > 0:
             test_query = "What did Mark Twain think about the Sphinx?"
             print(f"\nTesting retrieval for: '{test_query}'")

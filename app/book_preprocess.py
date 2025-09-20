@@ -72,10 +72,3 @@ def chunk_text_by_paragraph(text: str, min_words: int = 30, max_words: int = 200
 
     
     return [c for c in chunks if len(c.split()) >= min_words]
-
-# if __name__ == "__main__":
-#     # Example usage
-#     with open("ebook.txt", "r", encoding="utf-8") as f:
-#         raw_text = f.read()
-#     clean_text = clean_gutenberg_text(raw_text)
-#     chunks = chunk_text_by_paragraph(clean_text)

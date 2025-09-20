@@ -3,7 +3,7 @@ import requests
 from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+
 load_dotenv()
 
 class WeatherAPI:
@@ -98,10 +98,3 @@ class WeatherAPI:
             f"Visibility: {weather_data.get('visibility', 'N/A')} meters"
         ]
         return "\n".join(lines)
-
-
-# if __name__ == "__main__":
-#     weather = WeatherAPI()
-#     city = input("Enter city name: ")
-#     result = weather.get_weather_by_city(city)
-#     print(weather.format_weather(result))

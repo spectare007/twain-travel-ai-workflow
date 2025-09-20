@@ -30,18 +30,7 @@ def classify_query_llm(query: str) -> str:
         inferenceConfig={"maxTokens": 10, "temperature": 0}
     )
     label = response["output"]["message"]["content"][0]["text"].strip().lower()
-    # Validate label
+    
     if label not in {"book", "weather", "both", "out-of-scope"}:
         label = "out-of-scope"
     return label
-
-# if __name__ == "__main__":
-#     # Quick test
-#     test_queries = [
-#         "What's the current weather in Paris?",
-#         "What did Mark Twain think about the Sphinx?",
-#         "I want to visit the places Twain went to in Italy - what's the weather like there now?",
-#         "Explain quantum physics"
-#     ]
-#     for q in test_queries:
-#         print(f"Query: {q}\nClassified as: {classify_query_llm(q)}\n")

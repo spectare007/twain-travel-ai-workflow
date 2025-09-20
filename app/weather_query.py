@@ -8,8 +8,3 @@ def get_weather_by_city(location: str) -> str:
     weather_api = WeatherAPI()
     weather_data = weather_api.get_weather_by_city(location)
     return WeatherAPI.format_weather(weather_data)
-
-# if __name__ == "__main__":
-#     # Example usage
-#     test_location = "Paris"
-#     print(get_weather_by_city(test_location))

@@ -22,7 +22,7 @@ def extract_cities_from_book(query: str) -> list:
     cities = set()
     for meta in results["metadatas"][0]:
         locs = meta.get("locations", "")
-        # Split by comma and clean up
+        
         for loc in locs.split(","):
             city = loc.strip()
             if city and city.lower() not in {"italy", "europe"}:
@@ -37,7 +37,7 @@ def extract_location(query: str) -> str:
     match = re.search(r"(?:in|at|for|of)\s+([A-Za-z\s]+)", query)
     if match:
         return match.group(1).strip()
-    return "Paris"  # Default fallback
+    return "Paris"  
 
 def generate_final_response(query: str, book_answer: str = "", weather_answer: str = "") -> str:
     """
@@ -85,13 +85,3 @@ def process_query(query: str) -> str:
     else:
         return "Sorry, I can only answer questions about Mark Twain's travels or the weather."
 
-# if __name__ == "__main__":
-#     # Example usage
-#     queries = [
-#         "What's the current weather in Paris?",
-#         "What did Mark Twain think about the Sphinx?",
-#         "I want to visit the places Twain went to in Italy - what's the weather like there now?",
-#         "Explain quantum physics"
-#     ]
-#     for q in queries:
-#         print(f"\nUser: {q}\nSystem: {process_query(q)}\n{'-'*40}")
